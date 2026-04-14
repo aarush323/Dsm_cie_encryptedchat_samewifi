@@ -2,7 +2,6 @@ function AttackerView({ messages }) {
   return (
     <div className="attacker-view">
       <h3>
-        <span className="icon">🔴</span>
         Attacker View
       </h3>
       <p className="description">
@@ -51,7 +50,7 @@ function AttackerView({ messages }) {
         }
         
         .attacker-view h3 {
-          color: #ff6b6b;
+          color: var(--danger, #ff6b6b);
           font-size: 1rem;
           margin-bottom: 0.25rem;
           display: flex;
@@ -59,12 +58,8 @@ function AttackerView({ messages }) {
           gap: 0.5rem;
         }
         
-        .icon {
-          font-size: 1.2rem;
-        }
-        
         .description {
-          color: #888;
+          color: var(--muted, #888);
           font-size: 0.75rem;
           margin-bottom: 1rem;
         }
@@ -72,14 +67,15 @@ function AttackerView({ messages }) {
         .intercepted-section {
           flex: 1;
           overflow-y: auto;
-          background: rgba(0, 0, 0, 0.3);
+          background: rgba(0, 0, 0, 0.24);
+          border: 1px solid rgba(255, 255, 255, 0.10);
           border-radius: 8px;
           padding: 0.75rem;
           margin-bottom: 1rem;
         }
         
         .empty {
-          color: #666;
+          color: var(--muted2, #666);
           text-align: center;
           font-size: 0.85rem;
           padding: 1rem;
@@ -94,50 +90,51 @@ function AttackerView({ messages }) {
         .intercepted-message {
           padding: 0.75rem;
           background: rgba(255, 0, 0, 0.1);
-          border: 1px solid rgba(255, 100, 100, 0.3);
+          border: 1px solid rgba(255, 100, 100, 0.24);
           border-radius: 6px;
         }
         
         .from {
           font-size: 0.8rem;
-          color: #ff8888;
+          color: rgba(255, 255, 255, 0.82);
           margin-bottom: 0.5rem;
         }
         
         .cipher-label {
           font-size: 0.7rem;
-          color: #888;
+          color: var(--muted, #888);
           margin-bottom: 0.25rem;
         }
         
         .cipher-data {
           display: block;
           font-size: 0.7rem;
-          color: #ff6b6b;
+          color: var(--danger, #ff6b6b);
           word-break: break-all;
           margin-bottom: 0.5rem;
         }
         
         .time {
           font-size: 0.65rem;
-          color: #666;
+          color: var(--muted2, #666);
           margin-bottom: 0.5rem;
         }
         
         .decrypt-status {
           font-size: 0.7rem;
-          color: #ff4444;
+          color: rgba(255, 107, 107, 0.95);
           font-style: italic;
         }
         
         .explanation {
-          background: rgba(0, 0, 0, 0.2);
+          background: rgba(0, 0, 0, 0.18);
+          border: 1px solid rgba(255, 255, 255, 0.10);
           border-radius: 8px;
           padding: 0.75rem;
         }
         
         .explanation h4 {
-          color: #888;
+          color: var(--muted, #888);
           font-size: 0.75rem;
           margin-bottom: 0.5rem;
         }
@@ -146,7 +143,7 @@ function AttackerView({ messages }) {
           margin: 0;
           padding-left: 1rem;
           font-size: 0.75rem;
-          color: #666;
+          color: var(--muted2, #666);
           line-height: 1.6;
         }
       `}</style>

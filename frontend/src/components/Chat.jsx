@@ -63,17 +63,17 @@ function Chat({ messages, onSend, selectedRecipient }) {
         
         .chat-header {
           padding: 1rem;
-          background: rgba(0, 0, 0, 0.2);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(0, 0, 0, 0.18);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.12);
           font-size: 0.95rem;
         }
         
         .chat-header strong {
-          color: #00d4ff;
+          color: var(--accent, #00d4ff);
         }
         
         .no-select {
-          color: #666;
+          color: var(--muted2, #666);
         }
         
         .messages {
@@ -87,7 +87,7 @@ function Chat({ messages, onSend, selectedRecipient }) {
         
         .empty-chat {
           text-align: center;
-          color: #666;
+          color: var(--muted2, #666);
           margin-top: 3rem;
           font-size: 0.95rem;
         }
@@ -108,12 +108,14 @@ function Chat({ messages, onSend, selectedRecipient }) {
           max-width: 70%;
           padding: 0.75rem 1rem;
           border-radius: 12px;
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.09);
+          border: 1px solid rgba(255, 255, 255, 0.10);
           position: relative;
         }
         
         .message.sent .message-bubble {
-          background: rgba(0, 212, 255, 0.3);
+          background: rgba(0, 212, 255, 0.22);
+          border-color: rgba(0, 212, 255, 0.25);
         }
         
         .message-text {
@@ -124,7 +126,7 @@ function Chat({ messages, onSend, selectedRecipient }) {
         .message-meta {
           display: block;
           font-size: 0.7rem;
-          color: #888;
+          color: var(--muted, #888);
           margin-top: 0.25rem;
         }
         
@@ -132,23 +134,23 @@ function Chat({ messages, onSend, selectedRecipient }) {
           display: flex;
           gap: 0.5rem;
           padding: 1rem;
-          background: rgba(0, 0, 0, 0.2);
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(0, 0, 0, 0.18);
+          border-top: 1px solid rgba(255, 255, 255, 0.12);
         }
         
         .input-area input {
           flex: 1;
           padding: 0.75rem 1rem;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.14);
           border-radius: 8px;
-          background: rgba(0, 0, 0, 0.3);
+          background: rgba(0, 0, 0, 0.24);
           color: #fff;
           font-size: 1rem;
           outline: none;
         }
         
         .input-area input:focus {
-          border-color: #00d4ff;
+          border-color: rgba(0, 212, 255, 0.55);
         }
         
         .input-area input:disabled {
@@ -158,17 +160,17 @@ function Chat({ messages, onSend, selectedRecipient }) {
         
         .input-area button {
           padding: 0.75rem 1.5rem;
-          background: #00d4ff;
-          color: #1a1a2e;
+          background: linear-gradient(135deg, var(--accent, #00d4ff), var(--accent2, #00ff88));
+          color: #061018;
           border: none;
           border-radius: 8px;
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
         }
         
         .input-area button:hover:not(:disabled) {
-          background: #00b8e6;
+          filter: brightness(1.02);
         }
         
         .input-area button:disabled {

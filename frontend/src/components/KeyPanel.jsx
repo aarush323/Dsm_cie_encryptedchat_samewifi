@@ -64,39 +64,43 @@ function KeyPanel({ keys, onGenerate }) {
 
       <style>{`
         .key-panel {
-          background: rgba(0, 0, 0, 0.2);
+          background: rgba(0, 0, 0, 0.18);
+          border: 1px solid rgba(255, 255, 255, 0.12);
           border-radius: 12px;
           padding: 1rem;
         }
         
         .key-panel h3 {
-          color: #888;
+          color: var(--muted2, #888);
           font-size: 0.85rem;
           text-transform: uppercase;
           margin-bottom: 1rem;
+          letter-spacing: 0.08em;
         }
         
         .generate-btn, .regenerate-btn {
           width: 100%;
           padding: 0.75rem;
-          background: linear-gradient(135deg, #00d4ff, #00ff88);
-          color: #1a1a2e;
+          background: linear-gradient(135deg, var(--accent, #00d4ff), var(--accent2, #00ff88));
+          color: #061018;
           border: none;
           border-radius: 8px;
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.3s;
+          transition: transform 0.2s ease, filter 0.2s ease;
         }
         
         .generate-btn:hover, .regenerate-btn:hover {
           transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+          filter: brightness(1.02);
+          box-shadow: 0 8px 24px rgba(0, 212, 255, 0.18);
         }
         
         .key-section {
           margin-bottom: 1rem;
           padding: 0.75rem;
           background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.10);
           border-radius: 8px;
         }
         
@@ -106,12 +110,12 @@ function KeyPanel({ keys, onGenerate }) {
           align-items: center;
           margin-bottom: 0.5rem;
           font-size: 0.85rem;
-          color: #888;
+          color: var(--muted, #888);
         }
         
         .key-badge {
           background: rgba(0, 255, 136, 0.2);
-          color: #00ff88;
+          color: var(--accent2, #00ff88);
           padding: 0.2rem 0.5rem;
           border-radius: 4px;
           font-size: 0.7rem;
@@ -120,19 +124,19 @@ function KeyPanel({ keys, onGenerate }) {
         .key-value {
           display: block;
           font-size: 0.75rem;
-          color: #00d4ff;
+          color: var(--accent, #00d4ff);
           word-break: break-all;
           line-height: 1.4;
         }
         
         .key-value.private {
-          color: #ff6b6b;
+          color: var(--danger, #ff6b6b);
         }
         
         .key-hidden {
           text-align: center;
           padding: 0.5rem;
-          color: #666;
+          color: var(--muted2, #666);
         }
         
         .key-hidden small {
@@ -144,15 +148,20 @@ function KeyPanel({ keys, onGenerate }) {
         .reveal-btn {
           padding: 0.25rem 0.5rem;
           background: rgba(255, 107, 107, 0.2);
-          color: #ff6b6b;
+          color: var(--danger, #ff6b6b);
           border: none;
           border-radius: 4px;
           font-size: 0.7rem;
           cursor: pointer;
+          transition: background 0.15s ease, transform 0.15s ease;
         }
         
         .reveal-btn:hover {
           background: rgba(255, 107, 107, 0.3);
+        }
+
+        .reveal-btn:active {
+          transform: translateY(1px);
         }
       `}</style>
     </div>

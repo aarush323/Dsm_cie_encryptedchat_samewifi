@@ -63,15 +63,15 @@ function CryptoView({ steps }) {
 
       <style>{`
         .crypto-view {
-          background: rgba(0, 0, 0, 0.3);
-          border-top: 1px solid rgba(0, 212, 255, 0.3);
+          background: rgba(0, 0, 0, 0.22);
+          border-top: 1px solid rgba(0, 212, 255, 0.22);
           padding: 1rem;
           max-height: 300px;
           overflow-y: auto;
         }
         
         .crypto-view h3 {
-          color: #00d4ff;
+          color: var(--accent, #00d4ff);
           font-size: 0.9rem;
           margin-bottom: 1rem;
           text-align: center;
@@ -91,20 +91,21 @@ function CryptoView({ steps }) {
         
         .step-label {
           font-size: 0.75rem;
-          color: #888;
+          color: var(--muted, #888);
           margin-bottom: 0.25rem;
         }
         
         .step-value {
           padding: 0.5rem;
           background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.10);
           border-radius: 6px;
           font-size: 0.85rem;
           word-break: break-all;
         }
         
         .step-value.original {
-          color: #00ff88;
+          color: var(--accent2, #00ff88);
         }
         
         .step-value.ascii {
@@ -117,34 +118,34 @@ function CryptoView({ steps }) {
         }
         
         .step-value.encrypted {
-          color: #ff6b6b;
+          color: var(--danger, #ff6b6b);
           font-size: 0.75rem;
         }
         
         .step-value.small {
-          color: #888;
+          color: var(--muted, #888);
           font-size: 0.7rem;
           margin-top: 0.25rem;
         }
         
         .step-note {
           font-size: 0.65rem;
-          color: #ff6b6b;
+          color: var(--danger, #ff6b6b);
           margin-top: 0.25rem;
           font-style: italic;
         }
         
         .arrow {
-          color: #00d4ff;
+          color: var(--accent, #00d4ff);
           font-size: 1.2rem;
         }
         
         .divider {
-          color: #666;
+          color: var(--muted2, #666);
           font-size: 0.75rem;
           margin: 0.75rem 0;
           padding: 0.25rem 1rem;
-          border: 1px dashed rgba(255, 255, 255, 0.2);
+          border: 1px dashed rgba(255, 255, 255, 0.22);
           border-radius: 4px;
         }
       `}</style>

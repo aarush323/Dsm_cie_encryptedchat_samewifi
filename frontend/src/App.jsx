@@ -19,6 +19,8 @@ function App() {
   const [showCryptoView, setShowCryptoView] = useState(false);
   const [cryptoSteps, setCryptoSteps] = useState(null);
   const [attackerMessages, setAttackerMessages] = useState([]);
+  const [showSidebar, setShowSidebar] = useState(true);
+  const [showAttackerPanel, setShowAttackerPanel] = useState(true);
 
   const socketRef = useRef(null);
   const keysRef = useRef(null);
@@ -179,7 +181,29 @@ function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>SecureChat</h1>
+        <div className="header-left">
+          <h1>SecureChat</h1>
+          <div className="header-actions">
+            <button
+              type="button"
+              className="icon-btn only-mobile"
+              aria-pressed={showSidebar}
+              onClick={() => setShowSidebar(v => !v)}
+              title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
+            >
+              Users
+            </button>
+            <button
+              type="button"
+              className="icon-btn only-mobile"
+              aria-pressed={showAttackerPanel}
+              onClick={() => setShowAttackerPanel(v => !v)}
+              title={showAttackerPanel ? 'Hide attacker view' : 'Show attacker view'}
+            >
+              Attacker
+            </button>
+          </div>
+        </div>
         <div className="status">
           <span className={`status-dot ${connected ? 'online' : 'offline'}`}></span>
           {username} {connected ? 'Online' : 'Offline'}
@@ -187,7 +211,7 @@ function App() {
       </header>
 
       <div className="main-content">
-        <aside className="sidebar">
+        <aside className={`sidebar ${showSidebar ? '' : 'is-collapsed'}`}>
           <KeyPanel keys={keys} onGenerate={generateNewKeys} />
 
           <div className="users-section">
@@ -229,7 +253,7 @@ function App() {
           )}
         </main>
 
-        <aside className="attacker-panel">
+        <aside className={`attacker-panel ${showAttackerPanel ? '' : 'is-collapsed'}`}>
           <AttackerView messages={attackerMessages} />
         </aside>
       </div>
