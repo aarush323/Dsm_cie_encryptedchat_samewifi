@@ -6,7 +6,7 @@ import KeyPanel from './components/KeyPanel';
 import CryptoView from './components/CryptoView';
 import AttackerView from './components/AttackerView';
 
-const SERVER_URL = 'http://192.168.1.43:8000';
+const SERVER_URL = 'http://127.0.0.1:8000';
 
 function App() {
   const [connected, setConnected] = useState(false);
