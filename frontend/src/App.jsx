@@ -6,7 +6,7 @@ import KeyPanel from './components/KeyPanel';
 import CryptoView from './components/CryptoView';
 import AttackerView from './components/AttackerView';
 
-const SERVER_URL = 'http://127.0.0.1:8000';
+const SERVER_URL = `http://${window.location.hostname}:8000`;
 
 function App() {
   const [connected, setConnected] = useState(false);
@@ -21,11 +21,17 @@ function App() {
   const [attackerMessages, setAttackerMessages] = useState([]);
   const [showSidebar, setShowSidebar] = useState(true);
   const [showAttackerPanel, setShowAttackerPanel] = useState(true);
+  const [recipientKeys, setRecipientKeys] = useState({});
 
   const socketRef = useRef(null);
   const keysRef = useRef(null);
   const recipientRef = useRef('');
   const usernameRef = useRef('');
+  const recipientKeysRef = useRef({});
+
+  useEffect(() => {
+    recipientKeysRef.current = recipientKeys;
+  }, [recipientKeys]);
 
   useEffect(() => {
     keysRef.current = keys;
@@ -50,6 +56,17 @@ function App() {
     const newKeys = generateKeys(p, q);
     setKeys(newKeys);
     keysRef.current = newKeys;
+
+    if (socketRef.current && usernameRef.current) {
+      const pubKeyToSend = {
+        e: newKeys.publicKey.e.toString(),
+        n: newKeys.publicKey.n.toString()
+      };
+      socketRef.current.emit('share_public_key', { 
+        userId: usernameRef.current, 
+        publicKey: pubKeyToSend 
+      });
+    }
   };
 
   useEffect(() => {
@@ -122,6 +139,20 @@ function App() {
       }
     });
 
+    socket.on('public_key_update', ({ userId, publicKey }) => {
+      const parsedKey = { e: BigInt(publicKey.e), n: BigInt(publicKey.n) };
+      setRecipientKeys(prev => ({ ...prev, [userId]: parsedKey }));
+    });
+
+    socket.on('all_public_keys', (keysDict) => {
+      const parsed = {};
+      for (const [uid, pub] of Object.entries(keysDict)) {
+        parsed[uid] = { e: BigInt(pub.e), n: BigInt(pub.n) };
+      }
+      setRecipientKeys(parsed);
+    });
+
+    socket.emit('request_public_keys', {});
     socket.emit('request_users', {});
 
     return () => {
@@ -137,14 +168,20 @@ function App() {
 
     if (!socket || !recipient || !currentKeys) return;
 
+    const recipientKey = recipientKeysRef.current[recipient];
+    if (!recipientKey) {
+      alert(`Cannot send: ${recipient} hasn't generated their keys yet!`);
+      return;
+    }
+
     const asciiArray = textToNumbers(text);
-    const encrypted = encrypt(asciiArray, currentKeys.publicKey);
+    const encrypted = encrypt(asciiArray, recipientKey);
 
     setCryptoSteps({
       original: text,
       ascii: asciiArray,
       encrypted: encrypted,
-      publicKey: currentKeys.publicKey,
+      publicKey: recipientKey,
       timestamp: new Date().toLocaleTimeString()
     });
 
