@@ -18,6 +18,7 @@ function App() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [showCryptoView, setShowCryptoView] = useState(false);
   const [cryptoSteps, setCryptoSteps] = useState(null);
+  const [showCryptoModal, setShowCryptoModal] = useState(false);
   const [attackerMessages, setAttackerMessages] = useState([]);
   const [showSidebar, setShowSidebar] = useState(true);
   const [showAttackerPanel, setShowAttackerPanel] = useState(true);
@@ -184,6 +185,7 @@ function App() {
       publicKey: recipientKey,
       timestamp: new Date().toLocaleTimeString()
     });
+    setShowCryptoModal(true);
 
     socket.emit('send_message', {
       to: recipient,
@@ -269,13 +271,6 @@ function App() {
               </ul>
             )}
           </div>
-
-          <button
-            className="crypto-toggle"
-            onClick={() => setShowCryptoView(!showCryptoView)}
-          >
-            {showCryptoView ? 'Hide' : 'Show'} Crypto Steps
-          </button>
         </aside>
 
         <main className="chat-area">
@@ -284,11 +279,11 @@ function App() {
             onSend={sendMessage}
             selectedRecipient={selectedRecipient}
           />
-
-          {cryptoSteps && showCryptoView && (
-            <CryptoView steps={cryptoSteps} />
-          )}
         </main>
+
+        {showCryptoModal && cryptoSteps && (
+          <CryptoView steps={cryptoSteps} onClose={() => setShowCryptoModal(false)} />
+        )}
 
         <aside className={`attacker-panel ${showAttackerPanel ? '' : 'is-collapsed'}`}>
           <AttackerView messages={attackerMessages} />

@@ -1,152 +1,238 @@
-function CryptoView({ steps }) {
+function CryptoView({ steps, onClose }) {
   if (!steps) return null;
 
   return (
-    <div className="crypto-view">
-      <h3>RSA Encryption Process</h3>
-      <div className="steps">
-        <div className="step">
-          <div className="step-label">1. Original Message</div>
-          <div className="step-value original">"{steps.original}"</div>
+    <div className="crypto-modal-overlay" onClick={onClose}>
+      <div className="crypto-modal" onClick={e => e.stopPropagation()}>
+        <div className="crypto-modal-header">
+          <h2>RSA Encryption</h2>
+          <button className="crypto-close-btn" onClick={onClose}>×</button>
         </div>
-
-        <div className="arrow">↓</div>
-
-        <div className="step">
-          <div className="step-label">2. ASCII Conversion</div>
-          <div className="step-value ascii">
-            [{steps.ascii.map(n => String(n)).join(', ')}]
+        
+        <div className="crypto-modal-body">
+          <div className="crypto-step">
+            <div className="step-num">1</div>
+            <div className="step-info">
+              <div className="step-label">Original</div>
+              <div className="step-val">"{steps.original}"</div>
+            </div>
           </div>
-        </div>
 
-        <div className="arrow">↓</div>
+          <div className="crypto-arrow">↓</div>
 
-        <div className="step">
-          <div className="step-label">3. RSA Encryption</div>
-          <div className="step-value formula">
-            c = m<sup>e</sup> mod n
+          <div className="crypto-step">
+            <div className="step-num">2</div>
+            <div className="step-info">
+              <div className="step-label">ASCII</div>
+              <div className="step-val ascii">[{steps.ascii.map(n => String(n)).join(', ')}]</div>
+            </div>
           </div>
-          <div className="step-value small">
-            e = {steps.publicKey.e}
+
+          <div className="crypto-arrow">↓</div>
+
+          <div className="crypto-step">
+            <div className="step-num">3</div>
+            <div className="step-info">
+              <div className="step-label">RSA Encrypt</div>
+              <div className="step-formula">c = m<sup>e</sup> mod n</div>
+            </div>
           </div>
-        </div>
 
-        <div className="arrow">↓</div>
+          <div className="crypto-arrow">↓</div>
 
-        <div className="step">
-          <div className="step-label">4. Encrypted Ciphertext</div>
-          <div className="step-value encrypted">
-            {steps.encrypted.slice(0, 3).map(n => n.toString()).join(', ')}
-            {steps.encrypted.length > 3 && '...'}
+          <div className="crypto-step highlight">
+            <div className="step-num">4</div>
+            <div className="step-info">
+              <div className="step-label">Encrypted (Network)</div>
+              <div className="step-val encrypted">
+                {steps.encrypted.slice(0, 4).map(n => n.toString()).join(', ')}
+                {steps.encrypted.length > 4 && '...'}
+              </div>
+            </div>
           </div>
-          <div className="step-note">
-            This is what travels over the network
+
+          <div className="crypto-divider">Decryption</div>
+
+          <div className="crypto-step">
+            <div className="step-num">5</div>
+            <div className="step-info">
+              <div className="step-label">RSA Decrypt</div>
+              <div className="step-formula">m = c<sup>d</sup> mod n</div>
+            </div>
           </div>
-        </div>
 
-        <div className="divider">— Recipient Decryption —</div>
+          <div className="crypto-arrow">↓</div>
 
-        <div className="step">
-          <div className="step-label">5. RSA Decryption</div>
-          <div className="step-value formula">
-            m = c<sup>d</sup> mod n
+          <div className="crypto-step">
+            <div className="step-num">6</div>
+            <div className="step-info">
+              <div className="step-label">Decrypted</div>
+              <div className="step-val success">"{steps.original}"</div>
+            </div>
           </div>
-        </div>
-
-        <div className="arrow">↓</div>
-
-        <div className="step">
-          <div className="step-label">6. ASCII → Text</div>
-          <div className="step-value original">"{steps.original}"</div>
         </div>
       </div>
 
       <style>{`
-        .crypto-view {
-          background: rgba(0, 0, 0, 0.22);
-          border-top: 1px solid rgba(0, 212, 255, 0.22);
+        .crypto-modal-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
           padding: 1rem;
-          max-height: 300px;
+          animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .crypto-modal {
+          background: #0d1420;
+          border: 1px solid rgba(0, 212, 255, 0.25);
+          border-radius: 16px;
+          width: 100%;
+          max-width: 420px;
+          max-height: 85vh;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 212, 255, 0.1);
+          animation: slideUp 0.25s ease;
+        }
+        @keyframes slideUp {
+          from { transform: translateY(20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        .crypto-modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 1.25rem;
+          border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+          background: rgba(0, 0, 0, 0.2);
+        }
+        .crypto-modal-header h2 {
+          color: #00d4ff;
+          font-size: 1rem;
+          margin: 0;
+          font-weight: 600;
+        }
+        .crypto-close-btn {
+          width: 32px;
+          height: 32px;
+          border: none;
+          background: rgba(255, 255, 255, 0.08);
+          color: #fff;
+          font-size: 1.3rem;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.15s;
+        }
+        .crypto-close-btn:hover {
+          background: rgba(255, 255, 255, 0.15);
+        }
+        .crypto-modal-body {
+          padding: 1.25rem;
           overflow-y: auto;
-        }
-        
-        .crypto-view h3 {
-          color: var(--accent, #00d4ff);
-          font-size: 0.9rem;
-          margin-bottom: 1rem;
-          text-align: center;
-        }
-        
-        .steps {
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 0.5rem;
         }
-        
-        .step {
+        .crypto-step {
           width: 100%;
-          text-align: center;
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
         }
-        
-        .step-label {
+        .step-num {
+          width: 24px;
+          height: 24px;
+          min-width: 24px;
+          background: rgba(0, 212, 255, 0.15);
+          border: 1px solid rgba(0, 212, 255, 0.3);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-size: 0.75rem;
-          color: var(--muted, #888);
-          margin-bottom: 0.25rem;
+          font-weight: 600;
+          color: #00d4ff;
         }
-        
-        .step-value {
-          padding: 0.5rem;
+        .step-info {
+          flex: 1;
+        }
+        .step-label {
+          font-size: 0.7rem;
+          color: #666;
+          margin-bottom: 0.25rem;
+          text-transform: uppercase;
+        }
+        .step-val {
+          padding: 0.5rem 0.75rem;
           background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.10);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 6px;
           font-size: 0.85rem;
           word-break: break-all;
+          color: #00ff88;
         }
-        
-        .step-value.original {
-          color: var(--accent2, #00ff88);
-        }
-        
-        .step-value.ascii {
+        .step-val.ascii {
           color: #ffdd00;
-        }
-        
-        .step-value.formula {
-          color: #fff;
           font-family: monospace;
-        }
-        
-        .step-value.encrypted {
-          color: var(--danger, #ff6b6b);
           font-size: 0.75rem;
         }
-        
-        .step-value.small {
-          color: var(--muted, #888);
+        .step-val.encrypted {
+          color: #ff6b6b;
+          font-family: monospace;
           font-size: 0.7rem;
-          margin-top: 0.25rem;
         }
-        
-        .step-note {
-          font-size: 0.65rem;
-          color: var(--danger, #ff6b6b);
-          margin-top: 0.25rem;
-          font-style: italic;
+        .step-val.success {
+          color: #00ff88;
         }
-        
-        .arrow {
-          color: var(--accent, #00d4ff);
-          font-size: 1.2rem;
+        .step-formula {
+          padding: 0.5rem 0.75rem;
+          background: rgba(0, 212, 255, 0.08);
+          border: 1px solid rgba(0, 212, 255, 0.2);
+          border-radius: 6px;
+          font-family: monospace;
+          font-size: 0.9rem;
+          color: #fff;
         }
-        
-        .divider {
-          color: var(--muted2, #666);
-          font-size: 0.75rem;
-          margin: 0.75rem 0;
-          padding: 0.25rem 1rem;
-          border: 1px dashed rgba(255, 255, 255, 0.22);
-          border-radius: 4px;
+        .crypto-arrow {
+          color: #00d4ff;
+          font-size: 1.1rem;
+          padding: 0.1rem 0;
+        }
+        .crypto-step.highlight {
+          background: rgba(255, 107, 107, 0.08);
+          border: 1px solid rgba(255, 107, 107, 0.2);
+          border-radius: 8px;
+          padding: 0.75rem;
+          margin: 0.25rem 0;
+        }
+        .crypto-divider {
+          width: 100%;
+          text-align: center;
+          color: #444;
+          font-size: 0.7rem;
+          padding: 0.5rem 0;
+          margin: 0.25rem 0;
+          border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+        @media (max-width: 480px) {
+          .crypto-modal {
+            max-height: 90vh;
+          }
+          .crypto-modal-body {
+            padding: 1rem;
+          }
         }
       `}</style>
     </div>
